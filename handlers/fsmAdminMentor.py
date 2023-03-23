@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from config import ADMINS
 from keyboards.client_kb import cancel_markup, submit_markup, start_markup
-# from database.bot_db import sql_command_insert
+from database.bot_dp import sql_command_insert
 
 
 class FSMAdmin(StatesGroup):
@@ -70,10 +70,10 @@ async def load_group(message: types.Message, state: FSMContext):
 
 async def submit(message: types.Message, state: FSMContext):
     if message.text == "ДА":
-        # await sql_command_insert(state)
+        await sql_command_insert(state)
         await state.finish()
         await message.answer("Ты зареган!", reply_markup=start_markup)
-    elif message.text == "НЕТ":
+    elif message.text.upper() == "НЕТ":
         await state.finish()
         await message.answer("Ну и пошел ты!", reply_markup=start_markup)
     else:
